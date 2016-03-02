@@ -238,310 +238,63 @@ else \
 #define MAC_HW(x) (((x) & BITMASK_HIGHER_LONG)>>HALF_LONG_BITS)
 #define BN_ULONG_ABS(x) (x>=0?(x):(-(x)))
 
-	SINT
-		BN_copy(
-		BN *dest,
-		BN *src
-		);
-	SINT
-		BN_bit_is_set(
-		BN *a,
-		ULONG nth
-		);
-	SINT
-		BN_shl_1bit(
-		BN *b,
-		BN *a
-		);
-	SINT
-		BN_shr_1bit(
-		BN *b,
-		BN *a
-		);
-	SINT
-		BN_shl(
-		BN *r,
-		BN *a,
-		SINT n
-		);
-	SINT
-		BN_shr(
-		BN *r,
-		BN *a,
-		SINT n
-		);
-	SINT
-		BN_nonzero_bits_num(
-		BN *a
-		);
-	SINT
-		BN_LOW_zero_bits_num(
-		BN *a
-		);
-	SINT
-		BN_abs_comp(
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_comp(
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_add_ULONG(
-		BN *c,
-		BN *a,
-		ULONG b
-		);
-	SINT
-		BN_asym_add(
-		BN *c,
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_sub_ULONG(
-		BN *r,
-		BN *a,
-		ULONG b
-		);
-	SINT
-		BN_asym_sub(
-		BN *a,
-		BN *b,
-		BN *c
-		);
-	SINT
-		BN_add(
-		BN *c,
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_sub(
-		BN *c,
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_mult_ULONG(
-		BN *c,
-		BN *a,
-		ULONG b
-		);
-	SINT
-		BN_mult_ULONG_add(
-		BN *c,
-		BN *a,
-		ULONG b
-		);
-	SINT
-		BN_plain_mul(
-		BN *c,
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_kar_mul(
-		BN *c,
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_plain_sqr(
-		BN *b,
-		BN *a
-		);
-	SINT
-		BN_kar_sqr(
-		BN *c,
-		BN *a
-		);
-	ULONG
-		BN_ULONG_div(
-		ULONG h,
-		ULONG l,
-		ULONG d
-		);
-	SINT
-		BN_div(
-		BN *c,
-		BN *d,
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_kar_mul_2048(
-		BN *c,
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_kar_mul_3072(
-		BN *c,
-		BN *a,
-		BN *b
-		);
+	SINT BN_copy(BN *dest, BN *src);
+	SINT BN_bit_is_set(BN *a, ULONG nth);
+	SINT BN_shl_1bit(BN *b, BN *a);
+	SINT BN_shr_1bit(BN *b, BN *a);
+	SINT BN_shl(BN *r, BN *a, SINT n);
+	SINT BN_shr(BN *r, BN *a, SINT n);
+	SINT BN_nonzero_bits_num(BN *a);
+	SINT BN_LOW_zero_bits_num(BN *a);
+	SINT BN_abs_comp(BN *a, BN *b);
+	SINT BN_comp(BN *a, BN *b);
+	SINT BN_add_ULONG(BN *c, BN *a,	ULONG b);
+	SINT BN_asym_add(BN *c, BN *a, BN *b);
+	SINT BN_sub_ULONG(BN *r, BN *a, ULONG b);
+	SINT BN_asym_sub(BN *a, BN *b, BN *c);
+	SINT BN_add(BN *c, BN *a, BN *b);
+	SINT BN_sub(BN *c, BN *a, BN *b);
+	SINT BN_mult_ULONG(BN *c, BN *a, ULONG b);
+	SINT BN_mult_ULONG_add(BN *c, BN *a, ULONG b);
+	SINT BN_plain_mul(BN *c, BN *a, BN *b);
+	SINT BN_kar_mul(BN *c, BN *a, BN *b);
+	SINT BN_plain_sqr(BN *b, BN *a);
+	SINT BN_kar_sqr(BN *c, BN *a);
+	ULONG BN_ULONG_div(ULONG h, ULONG l, ULONG d);
+	SINT BN_div(BN *c, BN *d, BN *a, BN *b);
+	SINT BN_kar_mul_2048(BN *c, BN *a, BN *b);
+	SINT BN_kar_mul_3072(BN *c, BN *a, BN *b);
 
 #define BN_mul(c,a,b) BN_plain_mul(c,a,b)
 #define BN_sqr(c,a) BN_plain_sqr(c,a)
 
-	SINT
-		BN_mod(
-		BN *r,
-		BN *a,
-		BN *m
-		);
-	ULONG
-		BN_mod_half_ULONG(
-		BN *a,
-		ULONG l
-		);
-	SINT
-		BN_add_mod(
-		BN *r,
-		BN *a,
-		BN *b,
-		BN *m
-		);
-	SINT
-		BN_sub_mod(
-		BN *r,
-		BN *a,
-		BN *b,
-		BN *m
-		);
-	SINT
-		BN_mul_mod(
-		BN *r,
-		BN *a,
-		BN *b,
-		BN *m
-		);
-	SINT
-		BN_sqr_mod(
-		BN *r,
-		BN *a,
-		BN *m
-		);
-	SINT
-		BN_mul_inv_mod(
-		BN *b,
-		BN *a,
-		BN *m
-		);
-	SINT
-		BN_l2r_pow_mod(
-		BN *r,
-		BN *x,
-		BN *e,
-		BN *m
-		);
-	ULONG
-		BN_ULONG_mul_inv_mod_2e(
-		ULONG x
-		);
-	SINT
-		BN_assign_MONT_BUF(
-		MP_MONT_CTX *mont_ctx,
-		MP_MONT_BUF *mont_buf
-		);
-	SINT
-		BN_mont_init_mod(
-		MP_MONT_CTX *mont_ctx,
-		BN *mod
-		);
-	SINT
-		BN_mont_red_mod(
-		BN *a,
-		MP_MONT_CTX *mont_ctx
-		);
-	SINT BN_mont_mul_mod(
-		BN *a,
-		BN *x,
-		BN *y,
-		MP_MONT_CTX *mont_ctx
-		);
-	SINT
-		BN_mont_pow_mod(
-		BN *r,
-		BN *x,
-		BN *e,
-		MP_MONT_CTX *mont_ctx
-		);
-	SINT BN_mont_sw_pow_mod(
-		BN *r,
-		BN *x,
-		BN *e,
-		MP_MONT_CTX *ms
-		);
-	SINT
-		BN_pow_mod(
-		BN *r,
-		BN *x,
-		BN *e,
-		BN *m
-		);
-	SINT
-		BN_euclid_gcd(
-		BN *c,
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_gcd(
-		BN *c,
-		BN *a,
-		BN *b
-		);
-	SINT
-		BN_MR_prime_test(
-		BN *n,
-		SINT icnt
-		);
-	SINT
-		BN_gen_prime(
-		BN *a,
-		BN_X9_PRNG_CTX *prng_ctx,
-		BN *b,
-		BN *c,
-		BN *d
-		);
-	SINT
-		BN_X9_31_PRNG_CTX_init(
-		BN_X9_PRNG_CTX *prng_ctx,
-		BN_X9_PRNG_BUF *prng_buf
-		);
-	SINT
-		BN_X9_31_PRNG(
-		BN *p,
-		BN_X9_PRNG_CTX *prng_ctx,
-		SINT l
-		);
-	SINT
-		BN2OSTR(
-		UCHAR *hstr,
-		ULONG *hstrlen,
-		BN *a
-		);
-	SINT
-		OSTR2BN(
-		BN *a,
-		UCHAR *hstr,
-		ULONG hstrlen
-		);
-	SINT
-		BN_ASCII2OSTR(
-		UCHAR *bstr,
-		ULONG *bstrlen,
-		SCHAR *ascii
-		);
-	SINT
-		STR2ULONG(
-		UCHAR *str,
-		ULONG* data
-		);
+	SINT BN_mod(BN *r, BN *a, BN *m);
+	ULON GBN_mod_half_ULONG(BN *a, ULONG l);
+	SINT BN_add_mod(BN *r, BN *a, BN *b, BN *m);
+	SINT BN_sub_mod(BN *r, BN *a, BN *b, BN *m);
+	SINT BN_mul_mod(BN *r, BN *a, BN *b, BN *m);
+	SINT BN_sqr_mod(BN *r, BN *a, BN *m);
+	SINT BN_mul_inv_mod(BN *b, BN *a, BN *m);
+	SINT BN_l2r_pow_mod(BN *r, BN *x ,BN *e, BN *m);
+	ULONG BN_ULONG_mul_inv_mod_2e(ULONG x);
+	SINT BN_assign_MONT_BUF(MP_MONT_CTX *mont_ctx, MP_MONT_BUF *mont_buf);
+	SINT BN_mont_init_mod(MP_MONT_CTX *mont_ctx, BN *mod);
+	SINT BN_mont_red_mod(BN *a, MP_MONT_CTX *mont_ctx);
+	SINT BN_mont_mul_mod(BN *a, BN *x, BN *y, MP_MONT_CTX *mont_ctx);
+	SINT BN_mont_pow_mod(BN *r, BN *x, BN *e, MP_MONT_CTX *mont_ctx);
+	SINT BN_mont_sw_pow_mod(BN *r,BN *x, BN *e, MP_MONT_CTX *ms);
+	SINT BN_pow_mod(BN *r, BN *x, BN *e, BN *m);
+	SINT BN_euclid_gcd(BN *c, BN *a, BN *b);
+	SINT BN_gcd(BN *c, BN *a, BN *b);
+	SINT BN_MR_prime_test(BN *n, SINT icnt);
+	SINT BN_gen_prime(BN *a, BN_X9_PRNG_CTX *prng_ctx, BN *b, BN *c, BN *d);
+	SINT BN_X9_31_PRNG_CTX_init(BN_X9_PRNG_CTX *prng_ctx, BN_X9_PRNG_BUF *prng_buf);
+	SINT BN_X9_31_PRNG(BN *p, BN_X9_PRNG_CTX *prng_ctx, SINT l);
+	SINT BN2OSTR(UCHAR *hstr, ULONG *hstrlen, BN *a);
+	SINT OSTR2BN(BN *a, UCHAR *hstr, ULONG hstrlen);
+	SINT BN_ASCII2OSTR(UCHAR *bstr, ULONG *bstrlen, SCHAR *ascii);
+	SINT STR2ULONG(UCHAR *str, ULONG* data);
+
 #define InbySTR(qstr,buf,a)\
 	{\
 	ULONG __alen;\
@@ -551,38 +304,11 @@ else \
 	}\
 	
 	
-	SINT
-		GFP_add(
-		GFP *r,
-		GFP *a,
-		GFP *b,
-		GFP *p
-		);
-	SINT GFP_sub(
-		GFP *r,
-		GFP *a,
-		GFP *b,
-		GFP *p
-		);
-	SINT
-		GFP_mul(
-		GFP *r,
-		GFP *a,
-		GFP *b,
-		GFP *p
-		);
-	SINT
-		GFP_mul_inv(
-		GFP *r,
-		GFP *a,
-		GFP *p
-		);
-	SINT
-		GFP_sqr(
-		GFP *r,
-		GFP *a,
-		GFP *p
-		);
+	SINT GFP_add(GFP *r, GFP *a, GFP *b, GFP *p);
+	SINT GFP_sub(GFP *r, GFP *a, GFP *b, GFP *p);
+	SINT GFP_mul(GFP *r, GFP *a, GFP *b, GFP *p);
+	SINT GFP_mul_inv(GFP *r, GFP *a,GFP *p);
+	SINT GFP_sqr(GFP *r, GFP *a, GFP *p);
 
 #define GFP_bit_is_set BN_bit_is_set
 #define GFP_shl_1bit BN_shl_1bit
@@ -622,41 +348,12 @@ else \
 		ULONG base_x_buf[MAX_GF2N_BUF_LEN];
 		ULONG base_y_buf[MAX_GF2N_BUF_LEN];
 	}GFP_EC_CTX_BUF;
-	void
-		GFP_EC_CTX_init(
-		GFP_EC_CTX *ec_ctx,
-		GFP_EC_CTX_BUF *ec_ctx_buf
-		);
-	void
-		GFP_ECPT_AC_init(
-		GFP_ECPT_AC *ecpt,
-		GFP_ECPT_AC_BUF *ecptbuf
-		);
-	SINT
-		GFP_EC_IsPT_on(
-		GFP_EC_CTX *ec_ctx,
-		GFP_ECPT_AC *ecpt
-		);
-	SINT
-		GFP_ECPT_AC_add(
-		GFP_ECPT_AC *R,
-		GFP_EC_CTX *ec_ctx,
-		GFP_ECPT_AC *P,
-		GFP_ECPT_AC *Q
-		);
-	SINT
-		GFP_ECPT_AC_dbl(
-		GFP_ECPT_AC *R,
-		GFP_EC_CTX *ec_ctx,
-		GFP_ECPT_AC *P
-		);
-	SINT
-		GFP_ECPT_AC_smul(
-		GFP_ECPT_AC *R,
-		GFP_EC_CTX *ec_ctx,
-		BN *n,
-		GFP_ECPT_AC *P
-	);
+	void GFP_EC_CTX_init(GFP_EC_CTX *ec_ctx, GFP_EC_CTX_BUF *ec_ctx_buf);
+	void GFP_ECPT_AC_init(GFP_ECPT_AC *ecpt, GFP_ECPT_AC_BUF *ecptbuf);
+	SINT GFP_EC_IsPT_on(GFP_EC_CTX *ec_ctx, GFP_ECPT_AC *ecpt);
+	SINT GFP_ECPT_AC_add(GFP_ECPT_AC *R, GFP_EC_CTX *ec_ctx,GFP_ECPT_AC *P, GFP_ECPT_AC *Q);
+	SINT GFP_ECPT_AC_dbl(GFP_ECPT_AC *R, GFP_EC_CTX *ec_ctx, GFP_ECPT_AC *P);
+	SINT GFP_ECPT_AC_smul(GFP_ECPT_AC *R, GFP_EC_CTX *ec_ctx, BN *n, GFP_ECPT_AC *P);
 	
 	
 #define ECDSA_SIGN			1
@@ -689,17 +386,16 @@ else \
 		BN k;
 		ULONG k_dat[MAX_GFP_BUF_LEN];
 		int is_sign;
-		int curve;
 		int hash_alg;
 	} ECDSA_INFO;
 
-	int ECDSA_init(ECDSA_INFO *ecdsa, int curve, int hash_alg);
-	int ECDSA_setkey(ECDSA_INFO *ecdsa, const UCHAR *d, ULONG d_len, const UCHAR *qx, ULONG qx_len, const UCHAR *qy, ULONG qy_len, int priv);
-	int ECDSA_gen_key_pair(ECDSA_INFO *ecdsa, UCHAR *d, ULONG *d_len, UCHAR *qx, ULONG *qx_len, UCHAR *qy, ULONG *qy_len);
+	int ECDSA_init(ECDSA_INFO *ecdsa, int hash_alg);
+	int ECDSA_gen_key_pair(ECDSA_INFO *ecdsa, UCHAR *qx, ULONG *qx_len, UCHAR *qy, ULONG *qy_len, UCHAR *d, ULONG *d_len);
+	int ECDSA_setkey(ECDSA_INFO *ecdsa, const UCHAR *qx, ULONG qx_len, const UCHAR *qy, ULONG qy_len, const UCHAR *d, ULONG d_len, int priv);
 	int ECDSA_gen_random_k(ECDSA_INFO *ecdsa, int bits, UCHAR *k, ULONG *k_len);
 	int ECDSA_set_random_k(ECDSA_INFO *ecdsa, const UCHAR *k, ULONG k_len);
-	int EC_KCDSA_sign(ECDSA_INFO *ecdsa, UCHAR *r, ULONG *rLen, UCHAR *s, ULONG *sLen, UCHAR *Msg, ULONG Msg_len);
-	int EC_KCDSA_verify(ECDSA_INFO *ecdsa, UCHAR *r, ULONG rLen, UCHAR *s, ULONG sLen, UCHAR *Msg, ULONG Msg_len);
+	int EC_KCDSA_sign(ECDSA_INFO *ecdsa, UCHAR *msg, ULONG msg_len, UCHAR *r, ULONG *rLen, UCHAR *s, ULONG *sLen);
+	int EC_KCDSA_verify(ECDSA_INFO *ecdsa, UCHAR *msg, ULONG msg_len, UCHAR *r, ULONG rLen, UCHAR *s, ULONG sLen);
 	int ECDSA_clear(ECDSA_INFO *ecdsa);
 
 #ifdef __cplusplus
