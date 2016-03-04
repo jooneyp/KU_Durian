@@ -2,7 +2,10 @@
 #include "EBDCrypto.h"
 #include "EBDerror.h"
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 //#define LINUX
 #define WINDOWS
 //#define ANDROID
@@ -11,6 +14,7 @@
 
 
 #ifdef LINUX || ANDROID || IOS
+<<<<<<< HEAD
 #include <sys/resource.h>
 #include <sys/time.h>
 #include <sys/types.h>
@@ -47,6 +51,29 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 	unsigned int ranCase;
 
 	/* Ïö¥ÏòÅÏ≤¥Ï†ú ÎßàÎã§ */
+=======
+	#include <sys/resource.h>
+	#include <sys/time.h>
+	#include <sys/types.h>
+	#include <sys/resource.h>
+	#include <unistd.h>
+#endif
+
+#ifdef WINDOWS
+	#include <windows.h>
+	#include <Wincrypt.h>
+	#include <tchar.h>
+#endif
+
+// seed_entropy¥¬ ¿ÃπÃ lengthπŸ¿Ã∆Æ∏∏≈≠ «“¥Áµ«æÓ¿÷¥Ÿ¥¬ ∞°¡§ «œø°
+
+void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
+{
+	/* ∞ÊøÏ∏∂¥Ÿ ¿‚¿Ωø¯ √ﬂ∞°«œ¥¬ πÊπ˝ ¥Ÿ∏£∞‘ «œ±‚ ¿ß«ÿ*/
+	unsigned int ranCase;		
+
+/* øÓøµ√º¡¶ ∏∂¥Ÿ */
+>>>>>>> origin/master
 #ifdef LINUX || ANDROID || IOS
 	struct timeval TV;
 	struct rusage usage;
@@ -55,6 +82,7 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 	long SharedmemorySIze;
 
 	srand(time(NULL));
+<<<<<<< HEAD
 	ranCase = rand() % 3;      // Í≤ΩÏö∞Ïùò Ïàò 
 
 	gettimeofday(&TV, NULL);
@@ -64,10 +92,22 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 
 	getrusage(RUSAGE_SELF, &usage);
 	SharedmemorySIze = usage.ru_ixrss;      // Í≥µÏú†Îêú Î©îÎ™®Î¶¨ ÏÇ¨Ïù¥Ï¶à 
+=======
+	ranCase = rand()%3;		// ∞ÊøÏ¿« ºˆ 
+
+	gettimeofday(&TV, NULL);
+	USec = TV.tv_usec;		// Ω√∞£ ∞™
+
+	PID = getpid();			// «¡∑ŒººΩ∫ ID
+
+	getrusage(RUSAGE_SELF, &usage);
+	SharedmemorySIze = usage.ru_ixrss;		// ∞¯¿Øµ» ∏ﬁ∏∏Æ ªÁ¿Ã¡Ó 
+>>>>>>> origin/master
 
 
 	FILE *fp;
 	fp = fopen("/dev/urandom", "r");
+<<<<<<< HEAD
 	if (fp == NULL)
 		return;
 
@@ -77,6 +117,17 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 	{
 		fread(seed_entropy, length - sizeof(USec), 1, fp);
 		memcpy(seed_entropy, (char *)USec, sizeof(USec));      // lengthÎßåÌÅºÏùò Ïû°ÏùåÏõêÏùÑ ÏñªÏñ¥ÏïºÌïòÍ∏∞ ÎïåÎ¨∏Ïóê Ï≤òÏùåÏóê ÏãúÍ∞ÑÍ∞íÌÅ¨Í∏∞ ÎπºÍ≥† Ïû°ÏùåÏõê ÏàòÏßë
+=======
+	if(fp == NULL)
+		return;
+
+
+	/* ƒ…¿ÃΩ∫∫∞∑Œ ¿‚¿Ωø¯ √ﬂ∞° */
+	if (ranCase == 0)
+	{
+		fread(seed_entropy, length - sizeof(USec), 1, fp);
+		memcpy(seed_entropy, (char *)USec, sizeof(USec));		// length∏∏≈≠¿« ¿‚¿Ωø¯¿ª æÚæÓæﬂ«œ±‚ ∂ßπÆø° √≥¿Ωø° Ω√∞£∞™≈©±‚ ª©∞Ì ¿‚¿Ωø¯ ºˆ¡˝
+>>>>>>> origin/master
 	}
 	else if (ranCase == 1)
 	{
@@ -96,7 +147,11 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 	HCRYPTPROV hCryptProv;
 	SYSTEMTIME st;
 	MEMORYSTATUSEX statex;
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> origin/master
 	unsigned long PhysicalMemory;
 	unsigned short MSec;
 	unsigned long CurrentThread;
@@ -104,6 +159,7 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 	statex.dwLength = sizeof (statex);
 
 	srand(time(NULL));
+<<<<<<< HEAD
 	ranCase = rand() % 3;            // Í≤ΩÏö∞Ïùò Ïàò 
 
 	GetSystemTime(&st);
@@ -119,6 +175,23 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 	{
 		CryptGenRandom(hCryptProv, length - sizeof(MSec), seed_entropy);
 		memcpy(seed_entropy, (char*)&MSec, sizeof(MSec));               // lengthÎßåÌÅºÏùò Ïû°ÏùåÏõêÏùÑ ÏñªÏñ¥ÏïºÌïòÍ∏∞ ÎïåÎ¨∏Ïóê Ï≤òÏùåÏóê ÏãúÍ∞ÑÍ∞íÌÅ¨Í∏∞ ÎπºÍ≥† Ïû°ÏùåÏõê ÏàòÏßë
+=======
+	ranCase = rand()%3;				// ∞ÊøÏ¿« ºˆ 
+
+	GetSystemTime(&st);
+	MSec = st.wMilliseconds;		// Ω√∞£ ∞™
+
+	CurrentThread = GetCurrentThreadId();		// «ˆ¿Á Ω∫∑πµÂ ∞™
+
+	PhysicalMemory= statex.ullTotalPhys/DIV;	// ¿¸√º ªÁøÎ ∏ﬁ∏∏Æ
+
+
+	/* ƒ…¿ÃΩ∫∫∞∑Œ ¿‚¿Ωø¯ √ﬂ∞° */
+	if (ranCase == 0)
+	{
+		CryptGenRandom(hCryptProv, length - sizeof(MSec), seed_entropy);
+		memcpy(seed_entropy, (char*)&MSec, sizeof(MSec));					// length∏∏≈≠¿« ¿‚¿Ωø¯¿ª æÚæÓæﬂ«œ±‚ ∂ßπÆø° √≥¿Ωø° Ω√∞£∞™≈©±‚ ª©∞Ì ¿‚¿Ωø¯ ºˆ¡˝
+>>>>>>> origin/master
 	}
 	else if (ranCase == 1)
 	{
@@ -132,4 +205,10 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 	}
 #endif
 
+<<<<<<< HEAD
 }
+=======
+}
+
+
+>>>>>>> origin/master
