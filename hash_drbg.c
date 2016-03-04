@@ -933,24 +933,18 @@ int HASH_DRBG_Random_Gen(unsigned char *output, int request_num_of_bits)
 	unsigned char ent9[ENT_LEN];	
 	unsigned char algo;
 
-	FILE *fp;
-	fp = fopen("/dev/urandom", "r");
-	if(fp == NULL)
-		return 0;
-	fread(ent1, 1, ENT_LEN, fp);
-	fread(ent2, 1, ENT_LEN, fp);
-	fread(ent3, 1, ENT_LEN, fp);
-	fread(ent4, 1, ENT_LEN, fp);
-	fread(ent5, 1, ENT_LEN, fp);
-	fread(ent6, 1, ENT_LEN, fp);
-	fread(ent7, 1, ENT_LEN, fp);
-	fread(ent8, 1, ENT_LEN, fp);
-	fread(ent9, 1, ENT_LEN, fp);
-	fread(&algo, 1, 1, fp);
-
+	K_DRBG_GetSysRandom(ent1, ENT_LEN);
+	K_DRBG_GetSysRandom(ent2, ENT_LEN);
+	K_DRBG_GetSysRandom(ent3, ENT_LEN);
+	K_DRBG_GetSysRandom(ent4, ENT_LEN);
+	K_DRBG_GetSysRandom(ent5, ENT_LEN);
+	K_DRBG_GetSysRandom(ent6, ENT_LEN);
+	K_DRBG_GetSysRandom(ent7, ENT_LEN);
+	K_DRBG_GetSysRandom(ent8, ENT_LEN);
+	K_DRBG_GetSysRandom(ent9, ENT_LEN);
+	K_DRBG_GetSysRandom(algo, 1);
+	
 	algo = (unsigned char)(((int)algo) * 4 / 256);
-
-	fclose(fp);
 
 	switch(algo)
 	{
