@@ -23,14 +23,14 @@
 	#include <tchar.h>
 #endif
 
-// seed_entropy는 이미 length바이트만큼 할당되어있다는 가정 하에
+// assumption : unsigned char* seed_entropy =(unsigned char *)malloc(length) 
 
 void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 {
-	/* 경우마다 잡음원 추가하는 방법 다르게 하기 위해*/
+	/* To differ method of adding entropy, divide the case */
 	unsigned int ranCase;		
 
-/* 운영체제 마다 */
+/* for OS */
 #ifdef LINUX || ANDROID || IOS
 	struct timeval TV;
 	struct rusage usage;
@@ -39,15 +39,15 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 	long SharedmemorySIze;
 
 	srand(time(NULL));
-	ranCase = rand()%3;		// 경우의 수 
+	ranCase = rand()%3;		// case
 
 	gettimeofday(&TV, NULL);
-	USec = TV.tv_usec;		// 시간 값
+	USec = TV.tv_usec;		// time value
 
-	PID = getpid();			// 프로세스 ID
+	PID = getpid();			// process ID
 
 	getrusage(RUSAGE_SELF, &usage);
-	SharedmemorySIze = usage.ru_ixrss;		// 공유된 메모리 사이즈 
+	SharedmemorySIze = usage.ru_ixrss;		// shared memory size
 
 
 	FILE *fp;
@@ -56,11 +56,11 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 		return;
 
 
-	/* 케이스별로 잡음원 추가 */
+	/* adding entropy for cases */
 	if (ranCase == 0)
 	{
-		fread(seed_entropy, length - sizeof(USec), 1, fp);
-		memcpy(seed_entropy, (char *)USec, sizeof(USec));		// length만큼의 잡음원을 얻어야하기 때문에 처음에 시간값크기 빼고 잡음원 수집
+		fread(seed_entropy, length - sizeof(USec), 1, fp);		// because of getting entropy of 'length' and later adding the value of USec, get entropy for length of 'length - sizeof(USec)'
+		memcpy(seed_entropy, (char *)USec, sizeof(USec));
 	}
 	else if (ranCase == 1)
 	{
@@ -88,21 +88,21 @@ void K_DRBG_GetSysRandom(unsigned char* seed_entropy, unsigned int length)
 	statex.dwLength = sizeof (statex);
 
 	srand(time(NULL));
-	ranCase = rand()%3;				// 경우의 수 
+	ranCase = rand()%3;				// case
 
 	GetSystemTime(&st);
-	MSec = st.wMilliseconds;		// 시간 값
+	MSec = st.wMilliseconds;		// time value
 
-	CurrentThread = GetCurrentThreadId();		// 현재 스레드 값
+	CurrentThread = GetCurrentThreadId();		// Thread value
 
-	PhysicalMemory= statex.ullTotalPhys/DIV;	// 전체 사용 메모리
+	PhysicalMemory= statex.ullTotalPhys/DIV;	// Total used memory value
 
 
-	/* 케이스별로 잡음원 추가 */
+	/* adding entropy for cases */
 	if (ranCase == 0)
 	{
-		CryptGenRandom(hCryptProv, length - sizeof(MSec), seed_entropy);
-		memcpy(seed_entropy, (char*)&MSec, sizeof(MSec));					// length만큼의 잡음원을 얻어야하기 때문에 처음에 시간값크기 빼고 잡음원 수집
+		CryptGenRandom(hCryptProv, length - sizeof(MSec), seed_entropy);	// because of getting entropy of 'length' and later adding the value of USec, get entropy for length of 'length - sizeof(USec)'
+		memcpy(seed_entropy, (char*)&MSec, sizeof(MSec));					
 	}
 	else if (ranCase == 1)
 	{
