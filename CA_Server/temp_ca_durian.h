@@ -15,11 +15,16 @@
 12. 공개키쌍
 13. 1~12에 대한 서명값
 */
+#define VALID_CERT					0x0D
+#define EXPIRE_CERT					0x0F
+
 #define ERR_INVALID_INPUT					0x10000001
+#define ERR_VERIFY_FAILURE					0x40000006
 
 #define ERR_NO_FILE					0x0A
 #define ERR_OPEN_FILE				0x0B
 #define ERR_CERT_TAG				0x0C
+
 
 
 #define	CERT_VER 					0x01
@@ -201,3 +206,38 @@ SINT generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt
 * -# ? : Fail
 */
 
+
+SINT revoke_PUB(CERT_INFO * cert, SINT cert_SN, SINT hash_alg, const UCHAR *d, ULONG d_len);
+/*!
+* \brief
+* 공개키 revoke 함수
+* \param cert
+* 인증서 관리 체계 운영을 위한 구조체 (CERT_init으로 초기화 필요) 
+* \param cert_SN
+* 폐지할 공개키 시리얼 넘버
+* \param hash_alg
+* 사용된, 사용할 해쉬 함수 // 폐지될 인증서 서명 생성할 때 필요
+* \param d
+* 서명에 사용할 서버의 개인키
+* \param d_len
+* d버퍼에 들어있는 데이터 길이
+* \return
+* -# ? : Success
+* -# ? : Fail
+*/
+
+
+SINT part_cert2tlv(CERT_INFO * cert, UCHAR * temp_out, SINT offset);
+/*!
+* \brief
+* 인증서 구조체를 tlv형태로 버퍼에 저장
+* \param cert
+* 인증서 관리 체계 운영을 위한 구조체 (CERT_init으로 초기화 필요) 
+* \param temp_out
+* tlv형태의 데이터가 저장될 변수
+* \param offset
+* 변수 offset설정을 위한 값
+* \return
+* -# ? : Success
+* -# ? : Fail
+*/
