@@ -3,17 +3,17 @@
 /*
 1. Version
 2. CERT_SN
-3. ¹ß±Ş ±â°ü
-4. ¹ß±Ş ÀÏÀÚ
-5. ¸¸·á ÀÏÀÚ
-6. »ç¿ëÀÚ ÀÌ¸§
-7. ÁÖ¹Î¹øÈ£ ¾ÕÀÚ¸®(8ÀÚ¸® ¼ıÀÚ)
-8. ÀüÈ­¹øÈ£
+3. ë°œê¸‰ ê¸°ê´€
+4. ë°œê¸‰ ì¼ì
+5. ë§Œë£Œ ì¼ì
+6. ì‚¬ìš©ì ì´ë¦„
+7. ì£¼ë¯¼ë²ˆí˜¸ ì•ìë¦¬(8ìë¦¬ ìˆ«ì)
+8. ì „í™”ë²ˆí˜¸
 9. USIM ID
-10. »ç¿ëÀÚ ID
-11. »ç¿ë ¾Ë°í¸®Áò
-12. °ø°³Å°½Ö
-13. 1~12¿¡ ´ëÇÑ ¼­¸í°ª
+10. ì‚¬ìš©ì ID
+11. ì‚¬ìš© ì•Œê³ ë¦¬ì¦˜
+12. ê³µê°œí‚¤ìŒ
+13. 1~12ì— ëŒ€í•œ ì„œëª…ê°’
 */
 #define VALID_CERT					0x0D
 #define INVALID_CERT				0x0E
@@ -50,7 +50,7 @@
 
 /*!
 * \brief
-* Certification System Áö¿ø ±¸Á¶Ã¼
+* Certification System ì§€ì› êµ¬ì¡°ì²´
 */
 typedef struct cert_conf_structure
 {
@@ -87,7 +87,7 @@ typedef struct cert_conf_structure
 	UCHAR len_usedAlgorithm;
 	UCHAR usedAlgorithm[BUFSIZE];
 
-	UCHAR len_pubKey;		// xÁÂÇ¥ tag : 1¹ÙÀÌÆ® + xÁÂÇ¥ ±æÀÌ : 1¹ÙÀÌÆ® + xÁÂÇ¥ °ª : 32¹ÙÀÌÆ® + yÁÂÇ¥ tag : 1¹ÙÀÌÆ® + yÁÂÇ¥ ±æÀÌ : 1¹ÙÀÌÆ® + yÁÂÇ¥ °ª : 32¹ÙÀÌÆ® = 68¹ÙÀÌÆ® (0x44)ÀÌ¹Ç·Î Ç×»ó len_pubKey = 0x44 
+	UCHAR len_pubKey;		// xì¢Œí‘œ tag : 1ë°”ì´íŠ¸ + xì¢Œí‘œ ê¸¸ì´ : 1ë°”ì´íŠ¸ + xì¢Œí‘œ ê°’ : 32ë°”ì´íŠ¸ + yì¢Œí‘œ tag : 1ë°”ì´íŠ¸ + yì¢Œí‘œ ê¸¸ì´ : 1ë°”ì´íŠ¸ + yì¢Œí‘œ ê°’ : 32ë°”ì´íŠ¸ = 68ë°”ì´íŠ¸ (0x44)ì´ë¯€ë¡œ í•­ìƒ len_pubKey = 0x44 
 	UCHAR len_pubKey_x;	// 0x20
 	UCHAR pubKey_x[32];
 	UCHAR len_pubKey_y;	// 0x20
@@ -100,7 +100,7 @@ typedef struct cert_conf_structure
 
 /*!
 * \brief
-* »ç¿ëÀÚ Á¤º¸ ÀúÀå ±¸Á¶Ã¼
+* ì‚¬ìš©ì ì •ë³´ ì €ì¥ êµ¬ì¡°ì²´
 */
 typedef struct userinfo_structure
 {
@@ -126,11 +126,11 @@ typedef struct userinfo_structure
 SINT Cert_init(CERT_INFO * cert, UCHAR * conf_location);
 /*!
 * \brief
-* ÀÎÁõ¼­ °ü¸® Ã¼°è ±¸Á¶Ã¼ ÃÊ±âÈ­ ÇÔ¼ö
+* ì¸ì¦ì„œ ê´€ë¦¬ ì²´ê³„ êµ¬ì¡°ì²´ ì´ˆê¸°í™” í•¨ìˆ˜
 * \param cert
-* ÀÎÁõ¼­ °ü¸® Ã¼°è ¿î¿µÀ» À§ÇÑ ±¸Á¶Ã¼ (ÀÎÁõ¼­ÀÇ Á¤º¸µéÀ» ÀúÀåÇÒ ±¸Á¶Ã¼) 
+* ì¸ì¦ì„œ ê´€ë¦¬ ì²´ê³„ ìš´ì˜ì„ ìœ„í•œ êµ¬ì¡°ì²´ (ì¸ì¦ì„œì˜ ì •ë³´ë“¤ì„ ì €ì¥í•  êµ¬ì¡°ì²´) 
 * \param conf_location
-* ¼³Á¤ ÆÄÀÏ À§Ä¡
+* ì„¤ì • íŒŒì¼ ìœ„ì¹˜
 * \return
 * -# ? : Success
 * -# ? : Fail
@@ -140,11 +140,11 @@ SINT Cert_init(CERT_INFO * cert, UCHAR * conf_location);
 SINT Cert_init_buffer(CERT_INFO * cert, UCHAR * buff);
 /*!
 * \brief
-* ÀÎÁõ¼­ °ü¸® Ã¼°è ±¸Á¶Ã¼ ÃÊ±âÈ­ ÇÔ¼ö
+* ì¸ì¦ì„œ ê´€ë¦¬ ì²´ê³„ êµ¬ì¡°ì²´ ì´ˆê¸°í™” í•¨ìˆ˜
 * \param cert
-* ÀÎÁõ¼­ °ü¸® Ã¼°è ¿î¿µÀ» À§ÇÑ ±¸Á¶Ã¼ (ÀÎÁõ¼­ÀÇ Á¤º¸µéÀ» ÀúÀåÇÒ ±¸Á¶Ã¼) 
+* ì¸ì¦ì„œ ê´€ë¦¬ ì²´ê³„ ìš´ì˜ì„ ìœ„í•œ êµ¬ì¡°ì²´ (ì¸ì¦ì„œì˜ ì •ë³´ë“¤ì„ ì €ì¥í•  êµ¬ì¡°ì²´) 
 * \param conf_location
-* ¼³Á¤ ¹öÆÛ
+* ì„¤ì • ë²„í¼
 * \return
 * -# ? : Success
 * -# ? : Fail
@@ -154,11 +154,11 @@ SINT Cert_init_buffer(CERT_INFO * cert, UCHAR * buff);
 SINT generate_PUB(CERT_INFO * cert, UCHAR * target);
 /*!
 * \brief
-* °ø°³Å° ÆÄÀÏ »ı¼º ÇÔ¼ö
+* ê³µê°œí‚¤ íŒŒì¼ ìƒì„± í•¨ìˆ˜
 * \param cert
-* ÀÎÁõ¼­ °ü¸® Ã¼°è ¿î¿µÀ» À§ÇÑ ±¸Á¶Ã¼ (CERT_initÀ¸·Î ÃÊ±âÈ­ ÇÊ¿ä) 
+* ì¸ì¦ì„œ ê´€ë¦¬ ì²´ê³„ ìš´ì˜ì„ ìœ„í•œ êµ¬ì¡°ì²´ (CERT_initìœ¼ë¡œ ì´ˆê¸°í™” í•„ìš”) 
 * \param target
-* »ı¼ºÇÒ °ø°³Å° ÆÄÀÏ À§Ä¡
+* ìƒì„±í•  ê³µê°œí‚¤ íŒŒì¼ ìœ„ì¹˜
 * \return
 * -# ? : Success
 * -# ? : Fail
@@ -168,75 +168,75 @@ SINT generate_PUB(CERT_INFO * cert, UCHAR * target);
 SINT generate_PUB_CSR(CERT_INFO * cert, USER_INFO * user, UCHAR * in, UCHAR * out, SINT out_len, SINT check_in, SINT check_out);
 /*!
 * \brief
-* Root CA¿¡ ¼­¸í ¿äÃ»ÇÒ °ø°³Å° Á¤º¸ »ı¼º ÇÔ¼ö
+* Root CAì— ì„œëª… ìš”ì²­í•  ê³µê°œí‚¤ ì •ë³´ ìƒì„± í•¨ìˆ˜
 * \param cert
-* ÀÎÁõ¼­ °ü¸® Ã¼°è ¿î¿µÀ» À§ÇÑ ±¸Á¶Ã¼ (CERT_initÀ¸·Î ÃÊ±âÈ­ ÇÊ¿ä) 
+* ì¸ì¦ì„œ ê´€ë¦¬ ì²´ê³„ ìš´ì˜ì„ ìœ„í•œ êµ¬ì¡°ì²´ (CERT_initìœ¼ë¡œ ì´ˆê¸°í™” í•„ìš”) 
 * \param user
-* »ç¿ëÀÚ Á¤º¸ ÀúÀå ±¸Á¶Ã¼
+* ì‚¬ìš©ì ì •ë³´ ì €ì¥ êµ¬ì¡°ì²´
 * \param in
-* °ø°³Å° °ªÀÌ ÀúÀåµÇ¾îÀÖ´Â ÆÄÀÏ ¶Ç´Â ¹öÆÛ
+* ê³µê°œí‚¤ ê°’ì´ ì €ì¥ë˜ì–´ìˆëŠ” íŒŒì¼ ë˜ëŠ” ë²„í¼
 * \param out
-* userÀÇ °ªÀÌ ÀúÀåµÉ ÆÄÀÏ ¶Ç´Â ¹öÆÛ
+* userì˜ ê°’ì´ ì €ì¥ë  íŒŒì¼ ë˜ëŠ” ë²„í¼
 * \param out_len
-* outÀÌ ¹öÆÛÀÏ °æ¿ì outÀÇ ±æÀÌ
+* outì´ ë²„í¼ì¼ ê²½ìš° outì˜ ê¸¸ì´
 * \param check_in
-* inÀÌ ÆÄÀÏ °æ·ÎÀÌ¸é 1, ¹öÆÛÀÌ¸é 0
+* inì´ íŒŒì¼ ê²½ë¡œì´ë©´ 1, ë²„í¼ì´ë©´ 0
 * \param check_out
-* outÀÌ ÆÄÀÏ °æ·ÎÀÌ¸é 1, ¹öÆÛÀÌ¸é 0
+* outì´ íŒŒì¼ ê²½ë¡œì´ë©´ 1, ë²„í¼ì´ë©´ 0
 * \return
 * -# ? : Success
 * -# ? : Fail
 
-CSR ÆÄÀÏ ±¸Á¶ : (tlv) CERT_USER_NAME	-> CERT_REGISTRATION_NUMBER -> CERT_PHONE_NUMBER -> CERT_USIM_ID ->	CERT_USER_ID -> CERT_USED_ALGORITHM -> CERT_CA_PUBKEY -> CERT_CA_PUBKEY_X -> CERT_CA_PUBKEY_Y
+CSR íŒŒì¼ êµ¬ì¡° : (tlv) CERT_USER_NAME	-> CERT_REGISTRATION_NUMBER -> CERT_PHONE_NUMBER -> CERT_USIM_ID ->	CERT_USER_ID -> CERT_USED_ALGORITHM -> CERT_CA_PUBKEY -> CERT_CA_PUBKEY_X -> CERT_CA_PUBKEY_Y
 */
 
 
 SINT generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt, UINT salt_len, UINT iteration, SINT check_in, SINT check_out, SINT hash_alg, const UCHAR *d, ULONG d_len);
 /*!
 * \brief
-* ¼­¸íµÈ °ø°³Å° »ı¼º ÇÔ¼ö
+* ì„œëª…ëœ ê³µê°œí‚¤ ìƒì„± í•¨ìˆ˜
 * \param cert
-* ÀÎÁõ¼­ °ü¸® Ã¼°è ¿î¿µÀ» À§ÇÑ ±¸Á¶Ã¼ (CERT_initÀ¸·Î ÃÊ±âÈ­ ÇÊ¿ä) 
+* ì¸ì¦ì„œ ê´€ë¦¬ ì²´ê³„ ìš´ì˜ì„ ìœ„í•œ êµ¬ì¡°ì²´ (CERT_initìœ¼ë¡œ ì´ˆê¸°í™” í•„ìš”) 
 * \param in
-* CSRÆÄÀÏ À§Ä¡
+* CSRíŒŒì¼ ìœ„ì¹˜
 * \param out
-* ¼­¸íµÈ °ø°³Å° ÆÄÀÏ À§Ä¡
+* ì„œëª…ëœ ê³µê°œí‚¤ íŒŒì¼ ìœ„ì¹˜
 * \param salt
-* »ı¼ºµÈ salt°ªÀÌ ÀúÀåµÉ ¹öÆÛ 
+* ìƒì„±ëœ saltê°’ì´ ì €ì¥ë  ë²„í¼ 
 * \param salt_len
-* salt¹öÆÛ¿¡ ÀúÀåµÈ µ¥ÀÌÅÍÀÇ ±æÀÌ°¡ ÀúÀåµÉ º¯¼ö
+* saltë²„í¼ì— ì €ì¥ëœ ë°ì´í„°ì˜ ê¸¸ì´ê°€ ì €ì¥ë  ë³€ìˆ˜
 * \param iteration
-* »ı¼ºµÈ iteration °ªÀÌ ÀúÀåµÉ º¯¼ö
+* ìƒì„±ëœ iteration ê°’ì´ ì €ì¥ë  ë³€ìˆ˜
 * \param check_in
-* inÀÌ ÆÄÀÏ °æ·ÎÀÌ¸é 1, ¹öÆÛÀÌ¸é 0
+* inì´ íŒŒì¼ ê²½ë¡œì´ë©´ 1, ë²„í¼ì´ë©´ 0
 * \param check_out
-* outÀÌ ÆÄÀÏ °æ·ÎÀÌ¸é 1, ¹öÆÛÀÌ¸é 0
+* outì´ íŒŒì¼ ê²½ë¡œì´ë©´ 1, ë²„í¼ì´ë©´ 0
 * \param hash_alg
-* ÇØ½Ã ¾Ë°í¸®Áò Á¾·ù
+* í•´ì‹œ ì•Œê³ ë¦¬ì¦˜ ì¢…ë¥˜
 * \param d
-* ¼­¸í¿¡ »ç¿ëÇÒ ¼­¹öÀÇ °³ÀÎÅ°
+* ì„œëª…ì— ì‚¬ìš©í•  ì„œë²„ì˜ ê°œì¸í‚¤
 * \param d_len
-* d¹öÆÛ¿¡ µé¾îÀÖ´Â µ¥ÀÌÅÍ ±æÀÌ
+* dë²„í¼ì— ë“¤ì–´ìˆëŠ” ë°ì´í„° ê¸¸ì´
 * \return
 * -# ? : Success
 * -# ? : Fail
 */
 
 
-SINT revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len);
+SINT revoke_PUB(UCHAR * cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len);
 /*!
 * \brief
-* °ø°³Å° revoke ÇÔ¼ö 
+* ê³µê°œí‚¤ revoke í•¨ìˆ˜ 
 * \param cert_SN
-* ÆóÁöÇÒ °ø°³Å° ½Ã¸®¾ó ³Ñ¹ö
+* íì§€í•  ê³µê°œí‚¤ ì‹œë¦¬ì–¼ ë„˜ë²„
 * \param reason
-* ÆóÁö »çÀ¯
+* íì§€ ì‚¬ìœ 
 * \param hash_alg
-* »ç¿ëµÈ, »ç¿ëÇÒ ÇØ½¬ ÇÔ¼ö // ÆóÁöµÉ ÀÎÁõ¼­ ¼­¸í »ı¼ºÇÒ ¶§ ÇÊ¿ä
+* ì‚¬ìš©ëœ, ì‚¬ìš©í•  í•´ì‰¬ í•¨ìˆ˜ // íì§€ë  ì¸ì¦ì„œ ì„œëª… ìƒì„±í•  ë•Œ í•„ìš”
 * \param d
-* ¼­¸í¿¡ »ç¿ëÇÒ ¼­¹öÀÇ °³ÀÎÅ°
+* ì„œëª…ì— ì‚¬ìš©í•  ì„œë²„ì˜ ê°œì¸í‚¤
 * \param d_len
-* d¹öÆÛ¿¡ µé¾îÀÖ´Â µ¥ÀÌÅÍ ±æÀÌ
+* dë²„í¼ì— ë“¤ì–´ìˆëŠ” ë°ì´í„° ê¸¸ì´
 * \return
 * -# ? : Success
 * -# ? : Fail
@@ -246,41 +246,41 @@ SINT revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULO
 SINT cert2tlv_exceptSign(CERT_INFO * cert, UCHAR * temp_out, SINT offset);
 /*!
 * \brief
-* ÀÎÁõ¼­ ±¸Á¶Ã¼¸¦ tlvÇüÅÂ·Î ¹öÆÛ¿¡ ÀúÀå
+* ì¸ì¦ì„œ êµ¬ì¡°ì²´ë¥¼ tlví˜•íƒœë¡œ ë²„í¼ì— ì €ì¥
 * \param cert
-* ÀÎÁõ¼­ °ü¸® Ã¼°è ¿î¿µÀ» À§ÇÑ ±¸Á¶Ã¼ (CERT_initÀ¸·Î ÃÊ±âÈ­ ÇÊ¿ä) 
+* ì¸ì¦ì„œ ê´€ë¦¬ ì²´ê³„ ìš´ì˜ì„ ìœ„í•œ êµ¬ì¡°ì²´ (CERT_initìœ¼ë¡œ ì´ˆê¸°í™” í•„ìš”) 
 * \param temp_out
-* tlvÇüÅÂÀÇ µ¥ÀÌÅÍ°¡ ÀúÀåµÉ º¯¼ö
+* tlví˜•íƒœì˜ ë°ì´í„°ê°€ ì €ì¥ë  ë³€ìˆ˜
 * \param offset
-* º¯¼ö offset¼³Á¤À» À§ÇÑ °ª
+* ë³€ìˆ˜ offsetì„¤ì •ì„ ìœ„í•œ ê°’
 * \return
 * -# ? : Success
 * -# ? : Fail
 */
 
 
-SINT check_cert_Station(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len);
+SINT check_cert_Station(UCHAR * cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len);
 /*!
 * \brief
-* ÀÎÁõ¼­°¡ À¯È¿ÇÑ °ÍÀÎÁö Ã¼Å©
+* ì¸ì¦ì„œê°€ ìœ íš¨í•œ ê²ƒì¸ì§€ ì²´í¬
 * \param cert_SN
-* DB¿¡¼­ cert_SNÀ» ÅëÇØ ÀÎÁõ¼­ Ã£±â
+* DBì—ì„œ cert_SNì„ í†µí•´ ì¸ì¦ì„œ ì°¾ê¸°
 * \param hash_alg
-* »ç¿ëµÈ, »ç¿ëÇÒ ÇØ½¬ ÇÔ¼ö // ¼­¸í °ª °ËÁõ ½Ã ÇÊ¿ä
+* ì‚¬ìš©ëœ, ì‚¬ìš©í•  í•´ì‰¬ í•¨ìˆ˜ // ì„œëª… ê°’ ê²€ì¦ ì‹œ í•„ìš”
 * \param d
-* ¼­¸í°ËÁõ¿¡ »ç¿ëÇÒ ¼­¹öÀÇ °³ÀÎÅ°
+* ì„œëª…ê²€ì¦ì— ì‚¬ìš©í•  ì„œë²„ì˜ ê°œì¸í‚¤
 * \param d_len
-* d¹öÆÛ¿¡ µé¾îÀÖ´Â µ¥ÀÌÅÍ ±æÀÌ
+* dë²„í¼ì— ë“¤ì–´ìˆëŠ” ë°ì´í„° ê¸¸ì´
 * \return
 * -# ? : Success
 * -# ? : Fail
 */
 
 
-SINT regenerate_cert(CERT_INFO * cert, SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len, UCHAR * in, UCHAR * out, UCHAR * salt, UINT salt_len, UINT iteration, SINT check_in, SINT check_out);
+SINT regenerate_cert(CERT_INFO * cert, UCHAR * cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len, UCHAR * in, UCHAR * out, UCHAR * salt, UINT salt_len, UINT iteration, SINT check_in, SINT check_out);
 /*
-	1. cert¿¡ »õ·Î °»½ÅÇÒ ¶§ ÇÊ¿äÇÑ ÀÎÁõ¼­°ª ÀúÀå, cert_SNÀº Æó±âµÇ¾î¾ßÇÒ ÀÎÁõ¼­ ½Ã¸®¾ó ³Ñ¹ö, reasonÀº Æó±â »çÀ¯
-	2. revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len)¸¦ ÅëÇØ ÇØ´ç cert_SN Æó±â
-	3. generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt, UINT salt_len, UINT iteration, SINT check_in, SINT check_out, SINT hash_alg, const UCHAR *d, ULONG d_len)À» ÅëÇØ »õ·Î¿î ÀÎÁõ¼­ ¹ß±Ş
-		ÀÌ¶§, inÀº CSRÁ¤º¸°¡ ÀúÀåµÈ °÷
+	1. certì— ìƒˆë¡œ ê°±ì‹ í•  ë•Œ í•„ìš”í•œ ì¸ì¦ì„œê°’ ì €ì¥, cert_SNì€ íê¸°ë˜ì–´ì•¼í•  ì¸ì¦ì„œ ì‹œë¦¬ì–¼ ë„˜ë²„, reasonì€ íê¸° ì‚¬ìœ 
+	2. revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len)ë¥¼ í†µí•´ í•´ë‹¹ cert_SN íê¸°
+	3. generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt, UINT salt_len, UINT iteration, SINT check_in, SINT check_out, SINT hash_alg, const UCHAR *d, ULONG d_len)ì„ í†µí•´ ìƒˆë¡œìš´ ì¸ì¦ì„œ ë°œê¸‰
+		ì´ë•Œ, inì€ CSRì •ë³´ê°€ ì €ì¥ëœ ê³³
 */

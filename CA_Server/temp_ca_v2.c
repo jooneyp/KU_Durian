@@ -15,7 +15,7 @@ void copydata_cert2user(CERT_INFO * cert, USER_INFO * user);
 int main()
 {
 	/*
-	// revoke ÇÔ¼ö °ËÁõ
+	// revoke í•¨ìˆ˜ ê²€ì¦
 	CERT_INFO * cert = (CERT_INFO *)malloc(sizeof(CERT_INFO));
 	SCHAR * temp_SN;
 	SINT cert_SN;
@@ -111,19 +111,19 @@ SINT Cert_init(CERT_INFO * cert, UCHAR * conf_location)
 	SINT code;
     UCHAR * data;
     
-	//¿¡·¯
+	//ì—ëŸ¬
 	if (conf_location == NULL)
 		return ERR_NO_FILE;
 
-	//0À¸·Î ÃÊ±âÈ­
+	//0ìœ¼ë¡œ ì´ˆê¸°í™”
 	memset(cert, 0, sizeof(CERT_INFO));
 
-	//ÆÄÀÏ¿­±â
+	//íŒŒì¼ì—´ê¸°
 	fp = fopen((SCHAR *)conf_location, "rb");
     if (fp == NULL)
 		return ERR_OPEN_FILE;
     
-	//ÀÎÁõ¼­ °ª ÀĞ¾î¿Í¼­ ±¸Á¶Ã¼¿¡ ÀúÀå 
+	//ì¸ì¦ì„œ ê°’ ì½ì–´ì™€ì„œ êµ¬ì¡°ì²´ì— ì €ì¥ 
 	while ((code = fgetc(fp)) != EOF) 
 	{
 		len = fgetc(fp);
@@ -199,7 +199,7 @@ SINT Cert_init(CERT_INFO * cert, UCHAR * conf_location)
 
 SINT Cert_init_buffer(CERT_INFO * cert, UCHAR * buff)
 {
-	//buff¿¡ ÀÖ´Â°Å cert¿¡ ÀúÀå
+	//buffì— ìˆëŠ”ê±° certì— ì €ì¥
 	SINT offset, code;
 	UCHAR len;
 
@@ -268,12 +268,12 @@ SINT Cert_init_buffer(CERT_INFO * cert, UCHAR * buff)
 				break;
 			case CERT_CA_PUBKEY :
 				cert->len_pubKey = len;
-				offset += 1;		//x_tag °Ç³Ê ¶Ù±â
+				offset += 1;		//x_tag ê±´ë„ˆ ë›°ê¸°
 				cert->len_pubKey_x = buff[offset];
 				offset += 1;
 				memcpy(cert->pubKey_x, buff + offset, cert->len_pubKey_x);
 				offset += cert->len_pubKey_x;
-				offset += 1;		//y_tag °Ç³Ê ¶Ù±â
+				offset += 1;		//y_tag ê±´ë„ˆ ë›°ê¸°
 				cert->len_pubKey_y = buff[offset];
 				offset += 1;
 				memcpy(cert->pubKey_y, buff + offset, cert->len_pubKey_y);
@@ -308,7 +308,7 @@ SINT generate_PUB(CERT_INFO * cert, UCHAR * target)
 
 SINT generate_PUB_CSR(CERT_INFO * cert, USER_INFO * user, UCHAR * in, UCHAR * out, SINT out_len, SINT check_in, SINT check_out)
 {
-	//////////////////////////////////////////////////////////Á¶°Ç : in¿¡´Â °ø°³Å° Á¤º¸°¡ µé¾îÀÖÀ½
+	//////////////////////////////////////////////////////////ì¡°ê±´ : inì—ëŠ” ê³µê°œí‚¤ ì •ë³´ê°€ ë“¤ì–´ìˆìŒ
 
 	FILE * fp1, * fp2;
 	UCHAR * data;
@@ -317,33 +317,33 @@ SINT generate_PUB_CSR(CERT_INFO * cert, USER_INFO * user, UCHAR * in, UCHAR * ou
 	UCHAR temp_out[BUFSIZE * 6 + 64];
 	SINT offset, size;
 
-	//NULL·Î ÃÊ±âÈ­
+	//NULLë¡œ ì´ˆê¸°í™”
 	
 	memset(temp_out, 0, sizeof(temp_out));
 	memset((UCHAR *)&out_len, 0, sizeof(out_len));
 	//memset(cert, 0, sizeof(CERT_INFO));
 
 
-	// user±¸Á¶Ã¼¿¡ °ªÀÌ ¾øÀ¸¸é ¿¡·¯(°ø°³Å°°ª »©°í) Áï, °ø°³Å°°ª»©°í ´Ù µé¾îÀÖ¾î¾ßÇÔ
+	// userêµ¬ì¡°ì²´ì— ê°’ì´ ì—†ìœ¼ë©´ ì—ëŸ¬(ê³µê°œí‚¤ê°’ ë¹¼ê³ ) ì¦‰, ê³µê°œí‚¤ê°’ë¹¼ê³  ë‹¤ ë“¤ì–´ìˆì–´ì•¼í•¨
 	if (user->len_phoneNum == NULL || user->len_registrationNum == NULL || user->len_usedAlgorithm == NULL || user->len_userID == NULL || user->len_userName == NULL || user->len_USIMID == NULL)
 		return ERR_INVALID_INPUT;
 
-	// °ø°³Å° °ªÀÌ ¾ø´Âµ¥ in °ªµµ ¾øÀ¸¸é ¿¡·¯ 
+	// ê³µê°œí‚¤ ê°’ì´ ì—†ëŠ”ë° in ê°’ë„ ì—†ìœ¼ë©´ ì—ëŸ¬ 
 	if ((user->len_pubKey_x == NULL || user->len_pubKey_y == NULL) && in == NULL)
 		return ERR_INVALID_INPUT;
 	
-	// in °ªÀÌ ÀÖ´Âµ¥ check °ªÀÌ ¸ÂÁö ¾ÊÀ¸¸é ¿¡·¯
+	// in ê°’ì´ ìˆëŠ”ë° check ê°’ì´ ë§ì§€ ì•Šìœ¼ë©´ ì—ëŸ¬
 	if (in != NULL && (check_in != 0 && check_in != 1))
 		return ERR_INVALID_INPUT;
 
-	// out °ªÀÌ ¾ø°Å³ª check °ªÀÌ ¸ÂÁö ¾ÊÀ¸¸é ¿¡·¯
+	// out ê°’ì´ ì—†ê±°ë‚˜ check ê°’ì´ ë§ì§€ ì•Šìœ¼ë©´ ì—ëŸ¬
 	if (out == NULL || (check_out != 0 && check_out != 1))
 		return ERR_INVALID_INPUT;
 
-	// °ø°³Å° °ªÀÌ ¾øÀ» °æ¿ì
+	// ê³µê°œí‚¤ ê°’ì´ ì—†ì„ ê²½ìš°
 	if (user->len_pubKey_x == NULL || user->len_pubKey_y == NULL)
 	{
-		// inÀÌ ÆÄÀÏÀÏ °æ¿ì
+		// inì´ íŒŒì¼ì¼ ê²½ìš°
 		if (check_in == 1)
 		{
 			fp1 = fopen((SCHAR *)in, "rb");
@@ -396,7 +396,7 @@ SINT generate_PUB_CSR(CERT_INFO * cert, USER_INFO * user, UCHAR * in, UCHAR * ou
 			}
 			fclose(fp1);
 		}
-		// inÀÌ ¹öÆÛÀÏ °æ¿ì
+		// inì´ ë²„í¼ì¼ ê²½ìš°
 		else
 		{
 			memset(out, 0, sizeof(out));
@@ -442,12 +442,12 @@ SINT generate_PUB_CSR(CERT_INFO * cert, USER_INFO * user, UCHAR * in, UCHAR * ou
 						offset += len;
 						break;
 					case CERT_CA_PUBKEY :
-						offset += 1;		//x_tag °Ç³Ê ¶Ù±â
+						offset += 1;		//x_tag ê±´ë„ˆ ë›°ê¸°
 						user->len_pubKey_x = in[offset];
 						offset += 1;
 						memcpy(user->pubKey_x, in + offset, user->len_pubKey_x);
 						offset += user->len_pubKey_x;
-						offset += 1;		//y_tag °Ç³Ê ¶Ù±â
+						offset += 1;		//y_tag ê±´ë„ˆ ë›°ê¸°
 						user->len_pubKey_y = in[offset];
 						offset += 1;
 						memcpy(user->pubKey_y, in + offset, user->len_pubKey_y);
@@ -464,7 +464,7 @@ SINT generate_PUB_CSR(CERT_INFO * cert, USER_INFO * user, UCHAR * in, UCHAR * ou
 	}
 
 
-	// user±¸Á¶Ã¼¿¡ ÀÖ´Â °ªÀ» tlvÇüÅÂ·Î º¯°æÇØ¼­ temp_out¿¡ ÀúÀå
+	// userêµ¬ì¡°ì²´ì— ìˆëŠ” ê°’ì„ tlví˜•íƒœë¡œ ë³€ê²½í•´ì„œ temp_outì— ì €ì¥
 	offset = 0;
 	temp_out[offset] = CERT_USER_NAME;
 	offset += 1;
@@ -530,8 +530,8 @@ SINT generate_PUB_CSR(CERT_INFO * cert, USER_INFO * user, UCHAR * in, UCHAR * ou
 	size = offset;
 
 
-	//temp_outÀÇ °ªÀ» out¿¡ Ãâ·Â
-		//ÆÄÀÏÀÏ °æ¿ì
+	//temp_outì˜ ê°’ì„ outì— ì¶œë ¥
+		//íŒŒì¼ì¼ ê²½ìš°
 	if (check_out == 1)
 	{
 		fp2 = fopen((SCHAR *)out, "wb");
@@ -541,7 +541,7 @@ SINT generate_PUB_CSR(CERT_INFO * cert, USER_INFO * user, UCHAR * in, UCHAR * ou
 		out_len = NULL;
 		fclose(fp2);
 	}
-		//¹öÆÛÀÏ °æ¿ì
+		//ë²„í¼ì¼ ê²½ìš°
 	else
 	{
 		memcpy(out, temp_out, size);
@@ -556,6 +556,7 @@ SINT generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt
 {
 	FILE * fp, * fp1;
 	SINT offset, size, total_size;
+    SCHAR query[100], cert_sn[16], issueDate[16], expDate[16];
 	UCHAR len;
 	UCHAR temp_out[BUFSIZE * 12];
 	UCHAR * data;
@@ -569,38 +570,38 @@ SINT generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt
 
 
 
-	//0À¸·Î ÃÊ±âÈ­
+	//0ìœ¼ë¡œ ì´ˆê¸°í™”
 	memset(temp_out, 0, sizeof(temp_out));
 	memset(salt, 0, sizeof(salt));
 	memset(r, 0, sizeof(r));
 	memset(s, 0, sizeof(s));
 
 
-	// certÀÇ ver, issuer, issuedate, expiredate´Â Àû¾îµµ Àß µé¾î¿Ô´Ù´Â °¡Á¤, ³ª¸ÓÁö °ªµéÀÌ ¾Èµé¾î¿ÍÀÖÀ¸¸é in(CSR µ¥ÀÌÅÍ ÀúÀåµÈ °÷)¿¡¼­ ¹Ş¾Æ¿À¸é µÊ
+	// certì˜ ver, issuer, issuedate, expiredateëŠ” ì ì–´ë„ ì˜ ë“¤ì–´ì™”ë‹¤ëŠ” ê°€ì •, ë‚˜ë¨¸ì§€ ê°’ë“¤ì´ ì•ˆë“¤ì–´ì™€ìˆìœ¼ë©´ in(CSR ë°ì´í„° ì €ì¥ëœ ê³³)ì—ì„œ ë°›ì•„ì˜¤ë©´ ë¨
 	if (cert->len_Ver == NULL || cert->len_issuer == NULL || cert->len_issueDate == NULL || cert->len_expirationDate == NULL)
 		return ERR_INVALID_INPUT;
 
-	// input °ªÀÌ ¾øÀ¸¸é ¿¡·¯ 
+	// input ê°’ì´ ì—†ìœ¼ë©´ ì—ëŸ¬ 
 	if (cert == NULL || salt == NULL)
 		return ERR_INVALID_INPUT;
 	
-	// ±¸Á¶Ã¼¿¡ °ªÀÌ ¾ø´Âµ¥ in°ªµµ ¾øÀ¸¸é ¿¡·¯
+	// êµ¬ì¡°ì²´ì— ê°’ì´ ì—†ëŠ”ë° inê°’ë„ ì—†ìœ¼ë©´ ì—ëŸ¬
 	if ((cert->len_userName == NULL || cert->len_registrationNum == NULL || cert->len_phoneNum == NULL || cert->len_USIMID == NULL || cert->len_userID == NULL || cert->len_usedAlgorithm == 0 || cert->len_pubKey_x == NULL || cert->len_pubKey_y == NULL) && in == NULL)
 		return ERR_INVALID_INPUT;
 
-	// in °ªÀÌ ÀÖ´Âµ¥ check °ªÀÌ ¸ÂÁö ¾ÊÀ¸¸é ¿¡·¯
+	// in ê°’ì´ ìˆëŠ”ë° check ê°’ì´ ë§ì§€ ì•Šìœ¼ë©´ ì—ëŸ¬
 	if (in != NULL && (check_in != 0 && check_in != 1))
 		return ERR_INVALID_INPUT;
 
-	// out°ªÀÌ ¾ø°Å³ª check °ªÀÌ ¸ÂÁö ¾ÊÀ¸¸é ¿¡·¯
+	// outê°’ì´ ì—†ê±°ë‚˜ check ê°’ì´ ë§ì§€ ì•Šìœ¼ë©´ ì—ëŸ¬
 	if (out == NULL && (check_out != 0 && check_out != 1))
 		return ERR_INVALID_INPUT;
 		
 
-	// ±¸Á¶Ã¼¿¡ Á¤º¸ ¾ø´Â °æ¿ì(Æ¯È÷ CSRÁ¤º¸°¡ ¾ø´Â °æ¿ì)
+	// êµ¬ì¡°ì²´ì— ì •ë³´ ì—†ëŠ” ê²½ìš°(íŠ¹íˆ CSRì •ë³´ê°€ ì—†ëŠ” ê²½ìš°)
 	if (cert->len_userName == NULL || cert->len_registrationNum == NULL || cert->len_phoneNum == NULL || cert->len_USIMID == NULL || cert->len_userID == NULL || cert->len_usedAlgorithm == NULL || cert->len_pubKey_x == NULL || cert->len_pubKey_y == NULL)
 	{
-		// ÆÄÀÏÀÏ °æ¿ì
+		// íŒŒì¼ì¼ ê²½ìš°
 		if (check_in == 1)
 		{
 			fp1 = fopen((SCHAR *)in, "rb");
@@ -667,7 +668,7 @@ SINT generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt
 		}
 
 
-		// ¹öÆÛÀÏ °æ¿ì
+		// ë²„í¼ì¼ ê²½ìš°
 		else
 		{
 			memset(out, 0, sizeof(out));
@@ -726,12 +727,12 @@ SINT generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt
 						break;
 					case CERT_CA_PUBKEY :
 						cert->len_pubKey = len;
-						offset += 1;		//x_tag °Ç³Ê ¶Ù±â
+						offset += 1;		//x_tag ê±´ë„ˆ ë›°ê¸°
 						cert->len_pubKey_x = in[offset];
 						offset += 1;
 						memcpy(cert->pubKey_x, in + offset, cert->len_pubKey_x);
 						offset += cert->len_pubKey_x;
-						offset += 1;		//y_tag °Ç³Ê ¶Ù±â
+						offset += 1;		//y_tag ê±´ë„ˆ ë›°ê¸°
 						cert->len_pubKey_y = in[offset];
 						offset += 1;
 						memcpy(cert->pubKey_y, in + offset, cert->len_pubKey_y);
@@ -749,28 +750,63 @@ SINT generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt
 	
 
 	/*
-		DB(CERT_INFO * cert);   Cert_SN¹Ş¾Æ¼­ µÇµ¹·ÁÁÜ	
+		DB(CERT_INFO * cert);   Cert_SNë°›ì•„ì„œ ë˜ëŒë ¤ì¤Œ	
 	*/
+
+	///DBDBDBDBDBDBDB///-------------
+    
+    // ì‹œê°„ data ë½‘ì•„ì˜´
+    get_time_data(0, issueDate);
+    get_time_data(1, expDate);
+	
+    /* csr í•´ì‹œ í›„ issueDateì˜ ì• 8ìë¦¬ì™€ strcat
+     hash_csr(csr);
+     strncpy(cert_sn, issueDate, 8);
+     strncat(cert_sn, csr, 8);
+    */
+    
+    strncpy(cert_sn, "20160328ifn1kd83", 16);
+	
+	size = cert2tlv_exceptSign(cert, temp_out, offset);
+
+	ECDSA_generate_signature(hash_alg, d, d_len, temp_out, size, r, r_len, s, s_len);
+	cert->len_signature = *r_len + *s_len;
+	memcpy(cert->signature, r, *r_len);
+	memcpy(cert->signature + *r_len, s, *s_len);
+	
+    
+    
+    // queryë¬¸ ìƒì„±
+    sprintf(query, "INSERT INTO %s VALUES \
+            ('%s', '%c', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+            DB_TABLE_NAME,
+            cert_sn, cert->Ver, cert->issuer, cert->issueDate, cert->expirationDate, cert->userName, cert->registrationNum, cert->phoneNum, cert->USIMID, cert->userID, cert->usedAlgorithm, cert->pubKey_x, cert->pubKey_y, cert->signature, "V", "");
+    
+    // queryë‚ ë¦¼
+    DB_Perform_Query(mysql, query, strlen(query));
+    
+    
+    ///DBDBDBDBDBDBDB///
 	
 	
-	///////////////////////////////////////// ¼­¸í°ª Á¦¿ÜÇÏ°í cert±¸Á¶Ã¼¿¡ ¸ğµç Á¤º¸ ´Ù µé¾î°¨
+	///////////////////////////////////////// ì„œëª…ê°’ ì œì™¸í•˜ê³  certêµ¬ì¡°ì²´ì— ëª¨ë“  ì •ë³´ ë‹¤ ë“¤ì–´ê°
 	
 
 
 
-	// ±¸Á¶Ã¼ -> tlv
+	// êµ¬ì¡°ì²´ -> tlv
 	size = cert2tlv_exceptSign(cert, temp_out, offset);
 
 
 	
-	// ¼­¸í°ª »ı¼º
+	// ì„œëª…ê°’ ìƒì„±
 	ECDSA_generate_signature(hash_alg, d, d_len, temp_out, size, r, r_len, s, s_len);
 	cert->len_signature = *r_len + *s_len;
 	memcpy(cert->signature, r, *r_len);
 	memcpy(cert->signature + *r_len, s, *s_len);
 	
 	/*
-	Å×½ºÆ®
+	í…ŒìŠ¤íŠ¸
 		cert->len_signature = 0x40;
 		memcpy(cert->signature, "signatursignatursignatursignatur", 32);
 		memcpy(cert->signature + 32, "signatursignatursignatursignatur", 32);
@@ -784,11 +820,11 @@ SINT generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt
 	memcpy(temp_out + size, cert->signature, cert->len_signature);
 	size += cert->len_signature;
 
-	////////////temp_out¿¡ ¸ğµç Á¤º¸ ÀúÀå (¿ÏÀüÇÑ ÇüÅÂÀÇ ÀÎÁõ¼­ µ¥ÀÌÅÍ)
+	////////////temp_outì— ëª¨ë“  ì •ë³´ ì €ì¥ (ì™„ì „í•œ í˜•íƒœì˜ ì¸ì¦ì„œ ë°ì´í„°)
 	total_size = size;
 
-	// out¿¡ ÀÎÁõ¼­ °ª Ãâ·ÂÇÏ±â 
-	// ÆÄÀÏÀÏ °æ¿ì
+	// outì— ì¸ì¦ì„œ ê°’ ì¶œë ¥í•˜ê¸° 
+	// íŒŒì¼ì¼ ê²½ìš°
 	if (check_out == 1)
 	{
 		fp = fopen((SCHAR *)out, "wb");
@@ -797,18 +833,18 @@ SINT generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt
 		fwrite(temp_out, total_size, 1, fp);
 		fclose(fp);
 	}
-	//¹öÆÛÀÏ °æ¿ì
+	//ë²„í¼ì¼ ê²½ìš°
 	else
 		memcpy(out, temp_out, total_size);
 
-	// salt°ª »ı¼º
+	// saltê°’ ìƒì„±
 	srand(time(NULL));
 	ran = rand()%5 + 12;
 	HASH_DRBG_Random_Gen(salt, ran * 8);
 	salt_len = ran;
 
 
-	// iteration °ª »ı¼º
+	// iteration ê°’ ìƒì„±
 	
 	do 
 	{
@@ -926,11 +962,11 @@ SINT cert2tlv_exceptSign(CERT_INFO * cert, UCHAR * temp_out, SINT temp_offset)
 }
 
 
-SINT revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len)
+SINT revoke_PUB(UCHAR * cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len)
 {
 	CERT_INFO * cert;
 	UCHAR temp_data[BUFSIZE * 12];
-	
+    SCHAR query[100];	
 	SINT i, offset, size, temp_offset, total_size, check_file_exist;
 	UCHAR r[32];
 	ULONG * r_len;
@@ -939,7 +975,7 @@ SINT revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULO
 	FILE * fp;
 
 
-	// NULL·Î ÃÊ±âÈ­
+	// NULLë¡œ ì´ˆê¸°í™”
 	memset(cert, 0, BUFSIZE*11 + 80);
 	memset(temp_data, 0, sizeof(temp_data));
 	
@@ -948,32 +984,52 @@ SINT revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULO
 		return ERR_INVALID_INPUT;
 
 	/*
-		DB°Ë»öÇÏ¿© À¯È¿ÇÑ cert_snÀÎÁö È®ÀÎ -> À¯È¿ÇÏÁö ¾Ê´Ù¸é ¿¡·¯ ÄÚµå ¸®ÅÏ, ¸¸¾à ÀÌ¹Ì Æó±âµÇ¾ú´Ù¸é °ª ¸®ÅÏ
+		DBê²€ìƒ‰í•˜ì—¬ ìœ íš¨í•œ cert_snì¸ì§€ í™•ì¸ -> ìœ íš¨í•˜ì§€ ì•Šë‹¤ë©´ ì—ëŸ¬ ì½”ë“œ ë¦¬í„´, ë§Œì•½ ì´ë¯¸ íê¸°ë˜ì—ˆë‹¤ë©´ ê°’ ë¦¬í„´
 
-		À¯È¿ÇÑ °æ¿ì & Æó±âµÇÁö ¾Ê¾Ò´Ù¸é DB¿¡¼­ °¡Á®¿Í¼­ cert±¸Á¶Ã¼¿¡ ÀúÀå
+		ìœ íš¨í•œ ê²½ìš° & íê¸°ë˜ì§€ ì•Šì•˜ë‹¤ë©´ DBì—ì„œ í•´ë‹¹ row ê°€ì ¸ì™€ì„œ certêµ¬ì¡°ì²´ì— ì €ì¥
 	*/
+
+	    ///DBDBDBDBDBDBDB///-------------
+
+    sprintf(query, "SELECT * FROM %s WHERE cert_sn='%s';", DB_TABLE_NAME, cert_SN);
+    
+    sql_result = DB_Perform_Query(mysql, query, strlen(query));
+    
+    sql_row = mysql_fetch_row(sql_result);
+    
+    memcpy(cert->Cert_SN, sql_row[0], 16);
+    memcpy(cert->Ver, sql_row[1], 1);
+    memcpy(cert->issuer, sql_row[2], strlen(sql_row[2]));
+    memcpy(cert->issueDate, sql_row[3], 16);
+    memcpy(cert->expirationDate, sql_row[4], strlen(sql_row[4]));
+    memcpy(cert->userName, sql_row[5], strlen(sql_row[5]));
+    memcpy(cert->registrationNum, sql_row[6], 6);
+    memcpy(cert->phoneNum, sql_row[7], strlen(sql_row[7]));
+    memcpy(cert->USIMID, sql_row[8], strlen(sql_row[8]));
+    memcpy(cert->userID, sql_row[9], strlen(sql_row[9]));
+    memcpy(cert->usedAlgorithm, sql_row[10], strlen(sql_row[10]));
+    memcpy(cert->pubKey_x, sql_row[11], 32);
+    memcpy(cert->pubKey_y, sql_row[12], 32);
+    memcpy(cert->signature, sql_row[13], 64);
+    
+    ///DBDBDBDBDBDBDB///
 
 
 	size = cert2tlv_exceptSign(cert, temp_data, temp_offset);
-	///////////////////////¿©±â±îÁö Æó±âµÉ ÀÎÁõ¼­¸¦ temp_data¿¡ tlvÇüÅÂ·Î ¼­¸í°ª »©°í ÀúÀåÇÔ
+	///////////////////////ì—¬ê¸°ê¹Œì§€ íê¸°ë  ì¸ì¦ì„œë¥¼ temp_dataì— tlví˜•íƒœë¡œ ì„œëª…ê°’ ë¹¼ê³  ì €ì¥í•¨
 
 
-	// temp_data¿¡ ´ëÇÑ ¼­¸í °ª »ı¼º
+	// temp_dataì— ëŒ€í•œ ì„œëª… ê°’ ìƒì„±
 	ECDSA_generate_signature(hash_alg, d, d_len, temp_data, size, r, r_len, s, s_len);
 	
 
-	// DB¿¡ ¼­¸í°ª µ¤¾î¾²±â
+	// DBì— ì„œëª…ê°’ ë®ì–´ì“°ê¸°
 	cert->len_signature = *r_len + *s_len;
 	memcpy(cert->signature, r, *r_len);
 	memcpy(cert->signature + *r_len, s, *s_len);
 	
 
-	/*
-		DB¿¡ Æó±âµÈ cert Á¤º¸ ÀúÀå
-	*/
-
-
-	// temp_data¿¡µµ »õ·Î »ı¼ºÇÑ ¼­¸í°ª ÀúÀå
+	// temp_dataì—ë„ ìƒˆë¡œ ìƒì„±í•œ ì„œëª…ê°’ ì €ì¥
 	temp_data[size] = CERT_SIGNATURE;
 	size += 1;
 	temp_data[size] = cert->len_signature;
@@ -985,11 +1041,21 @@ SINT revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULO
 
 
 	/*
-		Æó±âµÇ¾ú´Ù´Â Á¤º¸(index)  + Æó±â »çÀ¯ DB¿¡ ÀúÀå  
+		DBì— íê¸°ë˜ì—ˆë‹¤ëŠ” ì •ë³´(index)  + íê¸° ì‚¬ìœ  ì €ì¥  
 	*/
 
+	///DBDBDBDBDBDBDB///-------------
 
-	// ÀÎÁõ¼­ ÆÄÀÏÀÖ´ÂÁö °Ë»ç ÈÄ ÀÖÀ¸¸é Áö¿ì°í µ¤¾î¾²±â
+
+    sprintf(query, "UPDATE %s SET cert_status='R', cert_comment='%s' WHERE cert_sn='%s';", DB_TABLE_NAME, reason, cert_SN);
+    
+    DB_Perform_Query(mysql, query, strlen(query));
+    
+    
+    ///DBDBDBDBDBDBDB///
+
+
+	// ì¸ì¦ì„œ íŒŒì¼ìˆëŠ”ì§€ ê²€ì‚¬ í›„ ìˆìœ¼ë©´ ì§€ìš°ê³  ë®ì–´ì“°ê¸°
 	check_file_exist = access("certification.data", 0);
 	if (check_file_exist == 0)
 	{
@@ -1004,7 +1070,7 @@ SINT revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULO
 }
 
 
-SINT check_cert_Station(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len)
+SINT check_cert_Station(UCHAR * cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len)
 {
 	CERT_INFO * cert;
 	time_t ltime;
@@ -1018,69 +1084,83 @@ SINT check_cert_Station(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR
 	SINT i, temp_offset, temp_size;
 
 	/*
-		DB°Ë»öÇÏ¿© À¯È¿ÇÑ cert_snÀÎÁö È®ÀÎ -> À¯È¿ÇÏÁö ¾Ê´Ù¸é ¿¡·¯ ÄÚµå ¸®ÅÏ
+		DBê²€ìƒ‰í•˜ì—¬ ìœ íš¨í•œ cert_snì¸ì§€ í™•ì¸ -> ìœ íš¨í•˜ì§€ ì•Šë‹¤ë©´ ì—ëŸ¬ ì½”ë“œ ë¦¬í„´
 
-		À¯È¿ÇÑ °æ¿ìÀÏ¶§ ÀÎÁõ¼­ »óÅÂ indexÀÖÀ¸¸é return ÀÎÁõ¼­ »óÅÂ
-						ÀÎÁõ¼­ »óÅÂ index¾øÀ¸¸é DB¿¡¼­ °¡Á®¿Í¼­ cert±¸Á¶Ã¼¿¡ ÀúÀå
+		ìœ íš¨í•œ ê²½ìš°ì¼ë•Œ ì¸ì¦ì„œ ìƒíƒœ indexìˆìœ¼ë©´ return ì¸ì¦ì„œ ìƒíƒœ
+						ì¸ì¦ì„œ ìƒíƒœ indexì—†ìœ¼ë©´ DBì—ì„œ ê°€ì ¸ì™€ì„œ certêµ¬ì¡°ì²´ì— ì €ì¥
 	*/
 
-	//ÀÓ½Ã·Î ÀúÀåÇÒ ¹è¿­ 0À¸·Î ÃÊ±âÈ­ (¼­¸í°ª°Ë»çÇÒ¶§ cert¸¦ tlvÇüÅÂ·Î ¹è¿­¿¡ ÀúÀåÇÏ±â À§ÇØ¼­ ¾²ÀÓ)
+	///DBDBDBDBDBDBDB///--------------
+
+    sprintf(query, "SELECT cert_status FROM %s WHERE cert_sn='%s';", DB_TABLE_NAME, cert_SN);
+    
+    sql_result = DB_Perform_Query(mysql, query, strlen(query));
+    
+    sql_row = mysql_fetch_row(sql_result);
+    
+    if(strcmp(sql_row[0], "V")) {
+        return INVALID_CERT;
+    }
+
+    ///DBDBDBDBDBDBDB///
+
+	//ì„ì‹œë¡œ ì €ì¥í•  ë°°ì—´ 0ìœ¼ë¡œ ì´ˆê¸°í™” (ì„œëª…ê°’ê²€ì‚¬í• ë•Œ certë¥¼ tlví˜•íƒœë¡œ ë°°ì—´ì— ì €ì¥í•˜ê¸° ìœ„í•´ì„œ ì“°ì„)
 	memset(temp_data, 0, sizeof(temp_data));
 
 
-	//ÇöÀç½Ã°£ Á¤º¸
+	//í˜„ì¬ì‹œê°„ ì •ë³´
 	time(&ltime);
 	today = localtime(&ltime);
 	sprintf(currentTime, "%04d%02d%02d%02d%02d%02d", today->tm_year + 1900, today->tm_mon + 1, today->tm_mday, today->tm_hour, today->tm_min, today->tm_sec);
 
 
 
-	// ½Ã°£°ª °ËÁõ
-		// ³âµµ ÃÊ°ú
+	// ì‹œê°„ê°’ ê²€ì¦
+		// ë…„ë„ ì´ˆê³¼
 	if (strncmp((SCHAR *)cert->expirationDate, currentTime, 4) < 0)
 	{
 		revoke_PUB(cert_SN, (UCHAR *)"Over Time", hash_alg, d, d_len);
-		return INVALID_CERT;		// À¯È¿ÇÏÁö ¾ÊÀº ÀÎÁõ¼­
+		return INVALID_CERT;		// ìœ íš¨í•˜ì§€ ì•Šì€ ì¸ì¦ì„œ
 	}
-		// ³âµµ ³²À½
+		// ë…„ë„ ë‚¨ìŒ
 	else if (strncmp((SCHAR *)cert->expirationDate, currentTime, 4) > 0)
 	{	
-		// ¼­¸í°ª °ËÁõ
+		// ì„œëª…ê°’ ê²€ì¦
 		temp_size = cert2tlv_exceptSign(cert, temp_data, temp_offset);
 		if (ECDSA_verify_signature(hash_alg, cert->pubKey_x, cert->len_pubKey_x, cert->pubKey_y, cert->len_pubKey_y, temp_data, temp_size, cert->signature, 32, cert->signature + 32, 32) != ERR_VERIFY_FAILURE)
-			return VALID_CERT;		// ³¯Â¥µµ ok, ¼­¸í°ªµµ okÀÌ´Ï±î À¯È¿ÇÑ ÀÎÁõ¼­
+			return VALID_CERT;		// ë‚ ì§œë„ ok, ì„œëª…ê°’ë„ okì´ë‹ˆê¹Œ ìœ íš¨í•œ ì¸ì¦ì„œ
 		else if (ECDSA_verify_signature(hash_alg, cert->pubKey_x, cert->len_pubKey_x, cert->pubKey_y, cert->len_pubKey_y, temp_data, temp_size, cert->signature, 32, cert->signature + 32, 32) == ERR_VERIFY_FAILURE)
 		{
 			revoke_PUB(cert_SN, (UCHAR *)"Invaild Signature", hash_alg, d, d_len);
-			return INVALID_CERT;		// À¯È¿ÇÏÁö ¾ÊÀº ÀÎÁõ¼­
+			return INVALID_CERT;		// ìœ íš¨í•˜ì§€ ì•Šì€ ì¸ì¦ì„œ
 		}
 	}
-		// ³âµµ °°
+		// ë…„ë„ ê°™
 	else
 	{
-			// ¿ùÀÏ..¼øÀ¸·Î ºñ±³
+			// ì›”ì¼..ìˆœìœ¼ë¡œ ë¹„êµ
 		for (i = 0; i < 5; i++)
 		{
-				// ½Ã°£ ÃÊ°ú
+				// ì‹œê°„ ì´ˆê³¼
 			if (strncmp((SCHAR *)cert->expirationDate +4 +2*i, currentTime +4 +2*i, 2) < 0)
 			{
 				revoke_PUB(cert_SN, (UCHAR *)"Over Time", hash_alg, d, d_len);
-				return INVALID_CERT;		// À¯È¿ÇÏÁö ¾ÊÀº ÀÎÁõ¼­
+				return INVALID_CERT;		// ìœ íš¨í•˜ì§€ ì•Šì€ ì¸ì¦ì„œ
 			}
-				// ½Ã°£ ³²À½
+				// ì‹œê°„ ë‚¨ìŒ
 			else if (strncmp((SCHAR *)cert->expirationDate +4 +2*i, currentTime +4 +2*i, 2) > 0)
 			{	
-				// ¼­¸í°ª °ËÁõ
+				// ì„œëª…ê°’ ê²€ì¦
 				temp_size = cert2tlv_exceptSign(cert, temp_data, temp_offset);
 				if (ECDSA_verify_signature(hash_alg, cert->pubKey_x, cert->len_pubKey_x, cert->pubKey_y, cert->len_pubKey_y, temp_data, temp_size, cert->signature, 32, cert->signature + 32, 32) != ERR_VERIFY_FAILURE)
-					return VALID_CERT;		// ³¯Â¥µµ ok, ¼­¸í°ªµµ okÀÌ´Ï±î À¯È¿ÇÑ ÀÎÁõ¼­
+					return VALID_CERT;		// ë‚ ì§œë„ ok, ì„œëª…ê°’ë„ okì´ë‹ˆê¹Œ ìœ íš¨í•œ ì¸ì¦ì„œ
 				else if (ECDSA_verify_signature(hash_alg, cert->pubKey_x, cert->len_pubKey_x, cert->pubKey_y, cert->len_pubKey_y, temp_data, temp_size, cert->signature, 32, cert->signature + 32, 32) != ERR_VERIFY_FAILURE)
 				{
 					revoke_PUB(cert_SN, (UCHAR *)"Invaild Signature", hash_alg, d, d_len);
-					return INVALID_CERT;		// À¯È¿ÇÏÁö ¾ÊÀº ÀÎÁõ¼­
+					return INVALID_CERT;		// ìœ íš¨í•˜ì§€ ì•Šì€ ì¸ì¦ì„œ
 				}
 			}
-				// ½Ã°£ °°
+				// ì‹œê°„ ê°™
 			else
 				continue;
 		}
@@ -1088,19 +1168,19 @@ SINT check_cert_Station(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR
 }
 
 
-SINT regenerate_cert(CERT_INFO * cert, SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len, UCHAR * in, UCHAR * out, UCHAR * salt, UINT salt_len, UINT iteration, SINT check_in, SINT check_out)
+SINT regenerate_cert(CERT_INFO * cert, UCHAR * cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len, UCHAR * in, UCHAR * out, UCHAR * salt, UINT salt_len, UINT iteration, SINT check_in, SINT check_out)
 {
 	if(cert_SN == 0 || reason == NULL || hash_alg == 0)
 		return ERR_INVALID_INPUT;
 
-	// ³ª¸ÓÁö ¿¡·¯Ã³¸®´Â ÇÔ¼ö¾È¿¡ ´Ù Á¸Àç
+	// ë‚˜ë¨¸ì§€ ì—ëŸ¬ì²˜ë¦¬ëŠ” í•¨ìˆ˜ì•ˆì— ë‹¤ ì¡´ì¬
 
 
-	// ÇØ´ç cert_SN Æó±â
+	// í•´ë‹¹ cert_SN íê¸°
 	revoke_PUB(cert_SN, reason, hash_alg, d, d_len);
 
 
-	// »õ·Î¿î ÀÎÁõ¼­ ¹ß±Ş
+	// ìƒˆë¡œìš´ ì¸ì¦ì„œ ë°œê¸‰
 	generate_signed_PUB(cert, in, out, salt, salt_len, iteration, check_in, check_out, hash_alg, d, d_len);
 
 	return 1;
