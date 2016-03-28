@@ -16,9 +16,11 @@
 13. 1~12에 대한 서명값
 */
 #define VALID_CERT					0x0D
+#define INVALID_CERT				0x0E
 #define EXPIRE_CERT					0x0F
 
 #define ERR_INVALID_INPUT					0x10000001
+#define ERR_INVALID_SN						0x10000011
 #define ERR_VERIFY_FAILURE					0x40000006
 
 #define ERR_NO_FILE					0x0A
@@ -128,7 +130,21 @@ SINT Cert_init(CERT_INFO * cert, UCHAR * conf_location);
 * \param cert
 * 인증서 관리 체계 운영을 위한 구조체 (인증서의 정보들을 저장할 구조체) 
 * \param conf_location
-* 설정 파일 위치 또는 버퍼
+* 설정 파일 위치
+* \return
+* -# ? : Success
+* -# ? : Fail
+*/
+
+
+SINT Cert_init_buffer(CERT_INFO * cert, UCHAR * buff);
+/*!
+* \brief
+* 인증서 관리 체계 구조체 초기화 함수
+* \param cert
+* 인증서 관리 체계 운영을 위한 구조체 (인증서의 정보들을 저장할 구조체) 
+* \param conf_location
+* 설정 버퍼
 * \return
 * -# ? : Success
 * -# ? : Fail
@@ -207,14 +223,14 @@ SINT generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt
 */
 
 
-SINT revoke_PUB(CERT_INFO * cert, SINT cert_SN, SINT hash_alg, const UCHAR *d, ULONG d_len);
+SINT revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len);
 /*!
 * \brief
-* 공개키 revoke 함수
-* \param cert
-* 인증서 관리 체계 운영을 위한 구조체 (CERT_init으로 초기화 필요) 
+* 공개키 revoke 함수 
 * \param cert_SN
 * 폐지할 공개키 시리얼 넘버
+* \param reason
+* 폐지 사유
 * \param hash_alg
 * 사용된, 사용할 해쉬 함수 // 폐지될 인증서 서명 생성할 때 필요
 * \param d
@@ -227,7 +243,7 @@ SINT revoke_PUB(CERT_INFO * cert, SINT cert_SN, SINT hash_alg, const UCHAR *d, U
 */
 
 
-SINT part_cert2tlv(CERT_INFO * cert, UCHAR * temp_out, SINT offset);
+SINT cert2tlv_exceptSign(CERT_INFO * cert, UCHAR * temp_out, SINT offset);
 /*!
 * \brief
 * 인증서 구조체를 tlv형태로 버퍼에 저장
@@ -240,4 +256,31 @@ SINT part_cert2tlv(CERT_INFO * cert, UCHAR * temp_out, SINT offset);
 * \return
 * -# ? : Success
 * -# ? : Fail
+*/
+
+
+SINT check_cert_Station(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len);
+/*!
+* \brief
+* 인증서가 유효한 것인지 체크
+* \param cert_SN
+* DB에서 cert_SN을 통해 인증서 찾기
+* \param hash_alg
+* 사용된, 사용할 해쉬 함수 // 서명 값 검증 시 필요
+* \param d
+* 서명검증에 사용할 서버의 개인키
+* \param d_len
+* d버퍼에 들어있는 데이터 길이
+* \return
+* -# ? : Success
+* -# ? : Fail
+*/
+
+
+SINT regenerate_cert(CERT_INFO * cert, SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len, UCHAR * in, UCHAR * out, UCHAR * salt, UINT salt_len, UINT iteration, SINT check_in, SINT check_out);
+/*
+	1. cert에 새로 갱신할 때 필요한 인증서값 저장, cert_SN은 폐기되어야할 인증서 시리얼 넘버, reason은 폐기 사유
+	2. revoke_PUB(SINT cert_SN, UCHAR * reason, SINT hash_alg, const UCHAR *d, ULONG d_len)를 통해 해당 cert_SN 폐기
+	3. generate_signed_PUB(CERT_INFO * cert, UCHAR * in, UCHAR * out, UCHAR * salt, UINT salt_len, UINT iteration, SINT check_in, SINT check_out, SINT hash_alg, const UCHAR *d, ULONG d_len)을 통해 새로운 인증서 발급
+		이때, in은 CSR정보가 저장된 곳
 */
