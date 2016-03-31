@@ -1,4 +1,5 @@
 #include "mysql.h"
+#include "EBDCrypto.h"
 
 #define DB_HOST 		"127.0.0.1"
 #define DB_PORT         3306

@@ -34,7 +34,7 @@
 #define	CERT_ISSUER					0x05
 #define	CERT_VALID_FROM				0x10
 #define	CERT_VALID_TO				0x11
-#define CERT_USER_NAME				0x20
+#define CERT_USER_NAME				0x21
 #define CERT_REGISTRATION_NUMBER	0x30
 #define CERT_PHONE_NUMBER			0x40
 #define CERT_USIM_ID				0x50
@@ -120,7 +120,7 @@ typedef struct userinfo_structure
 	UCHAR pubKey_x[32];
 	UCHAR len_pubKey_y;
 	UCHAR pubKey_y[32];
-}USER_INFO;
+} USER_INFO;
 
 
 SINT Cert_init(CERT_INFO * cert, UCHAR * conf_location);
